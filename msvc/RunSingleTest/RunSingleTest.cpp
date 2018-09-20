@@ -3,10 +3,12 @@
 #include <fstream>
 #include <cstdlib>
 #include <time.h>
+#if _WIN32 || _WIN64
 #include <windows.h>
-#include "config\ConfigParams.h"
-#include "estimators\FundMatrixEstimator.h"
-#include "estimators\HomogEstimator.h"
+#endif
+#include "config/ConfigParams.h"
+#include "estimators/FundmatrixEstimator.h"
+#include "estimators/HomogEstimator.h"
 
 // helper functions
 bool readCorrsFromFile(std::string& inputFilePath, std::vector<double>& pointData, unsigned int& numPts)

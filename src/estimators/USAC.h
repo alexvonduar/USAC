@@ -7,8 +7,13 @@
 #include <iostream>
 #include <limits>
 #include <vector>
+#include <cmath>
+#if _WIN64 || _WIN32
 #include <windows.h>
-#include "config/ConfigParams.h" 
+#else
+#include <sys/time.h>
+#endif
+#include "config/ConfigParams.h"
 
 struct UsacResults {
 	void reset() {
@@ -308,8 +313,13 @@ bool USAC<ProblemType>::solve()
 	}
 
 	// timing stuff
+#if defined(_WIN32) || defined(_WIN64)
 	LARGE_INTEGER tick, tock, freq;
 	QueryPerformanceCounter(&tick);
+#else
+	struct timespec tick, tock;
+	clock_gettime(CLOCK_MONOTONIC, &tick);
+#endif
 
 	// ------------------------------------------------------------------------
 	// main USAC loop
@@ -502,8 +512,12 @@ bool USAC<ProblemType>::solve()
 
 	// ------------------------------------------------------------------------	
 	// output statistics
+#if defined(_WIN32) || defined(_WIN64)
 	QueryPerformanceCounter(&tock);
 	QueryPerformanceFrequency(&freq);
+#else
+	clock_gettime(CLOCK_MONOTONIC, &tock);
+#endif
 	std::cout << "Number of hypotheses/models: " << usac_results_.hyp_count_ << "/" << usac_results_.model_count_ << std::endl;
 	std::cout << "Number of samples rejected by pre-validation: " << usac_results_.rejected_sample_count_ << std::endl;
 	std::cout << "Number of models rejected by pre-validation: " << usac_results_.rejected_model_count_ << std::endl;
@@ -513,7 +527,14 @@ bool USAC<ProblemType>::solve()
 
 	// ------------------------------------------------------------------------
 	// timing stuff
+#if defined(_WIN32) || defined(_WIN64)
 	usac_results_.total_runtime_ = (double)(tock.QuadPart - tick.QuadPart)/(double)freq.QuadPart;
+#else
+	int64_t delta = tock.tv_sec - tick.tv_sec;
+	delta *= 1000000000UL;
+	delta += tock.tv_nsec - tick.tv_nsec;
+	usac_results_.total_runtime_ = (double)delta / 1000000000UL;
+#endif
 	std::cout << "Time: " << usac_results_.total_runtime_ << std::endl << std::endl;
 
 	// ------------------------------------------------------------------------

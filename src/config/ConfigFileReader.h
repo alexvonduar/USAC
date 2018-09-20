@@ -16,7 +16,7 @@ class ConfigFileReader: public libconfig::Config
 			const libconfig::Setting& root = getRoot();
 			try
 			{
-				const libconfig::Setting &setting = root[settingName];
+				const libconfig::Setting &setting = root[settingName.c_str()];
 				if (!setting.lookupValue(parameterName.c_str(), value))
 				{
 					std::cout << settingName << ": parameter " << parameterName << " not found" << std::endl;
@@ -38,7 +38,7 @@ class ConfigFileReader: public libconfig::Config
 			const libconfig::Setting& root = getRoot();
 			try
 			{
-				const libconfig::Setting &setting = root[settingName][subSettingName];
+				const libconfig::Setting &setting = root[settingName.c_str()][subSettingName.c_str()];
 				if (!setting.lookupValue(parameterName.c_str(), value))
 				{
 					std::cout << settingName << ":" << subSettingName

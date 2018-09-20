@@ -1,7 +1,7 @@
 #include "ConfigParamsFundmatrix.h"
 #include "ConfigFileReader.h"
 
-bool ConfigParamsFund::initParamsFromConfigFile(std::string &configFilePath)
+bool ConfigParamsFund::initParamsFromConfigFile(const std::string &configFilePath)
 {
 	// initialize the config file reader with the input config file
 	ConfigFileReader cfr;

@@ -27,7 +27,7 @@ class ConfigParamsFund: public ConfigParams
 {
 public:
 	// simple function to read in parameters from config file
-	bool initParamsFromConfigFile(std::string& configFilePath);
+	bool initParamsFromConfigFile(const std::string& configFilePath);
 
 	USACConfig::Fund fund;
 };

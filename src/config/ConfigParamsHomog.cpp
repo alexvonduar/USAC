@@ -1,7 +1,7 @@
 #include "ConfigParamsHomog.h"
 #include "ConfigFileReader.h"
 
-bool ConfigParamsHomog::initParamsFromConfigFile(std::string &configFilePath)
+bool ConfigParamsHomog::initParamsFromConfigFile(const std::string &configFilePath)
 {
 	// initialize the config file reader with the input config file
 	ConfigFileReader cfr;
